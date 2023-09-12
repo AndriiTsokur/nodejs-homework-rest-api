@@ -3,6 +3,7 @@
 #Junk
 .vscode/
 .idea/
+yarn.lock*
 
 # dependencies
 /node_modules
