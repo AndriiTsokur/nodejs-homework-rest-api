@@ -1,7 +1,3 @@
-export {
-	getAll,
-	getById,
-	add,
-	deleteById,
-	updateById,
-} from './contacts/index.js';
+import * as contactsController from './contacts/index.js';
+
+export { contactsController };
