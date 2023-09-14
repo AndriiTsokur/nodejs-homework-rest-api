@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import Joi from 'joi';
 
-import $EMAIL_REG_EXP from '../utils/index.js';
+import { $EMAIL_REG_EXP } from '../helpers/index.js';
 import { handleSaveError, runValidateAtUpdate } from './hooks.js';
 
 const userSchema = new Schema(
