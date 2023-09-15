@@ -3,7 +3,7 @@ import express from 'express';
 import { contactsController } from '../../controllers/index.js';
 import * as contactSchemas from '../../models/Contact.js';
 import { validateBody } from '../../decorators/index.js';
-import { isValidId } from '../../middlewares/index.js';
+import { authenticate, isValidId } from '../../middlewares/index.js';
 
 const contactAddValidate = validateBody(contactSchemas.contactAddSchema);
 const contactUpdateFavoriteValidate = validateBody(
@@ -11,6 +11,8 @@ const contactUpdateFavoriteValidate = validateBody(
 );
 
 const contactsRouter = express.Router();
+
+contactsRouter.use(authenticate);
 
 contactsRouter.get('/', contactsController.getAll);
 
