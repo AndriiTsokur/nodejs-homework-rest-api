@@ -1,10 +1,8 @@
 import { Schema, model } from 'mongoose';
 import Joi from 'joi';
 
+import { $EMAIL_REG_EXP } from '../helpers/index.js';
 import { handleSaveError, runValidateAtUpdate } from './hooks.js';
-
-const emailRegExp =
-	/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,6})$/;
 
 const contactSchema = new Schema(
 	{
@@ -14,7 +12,7 @@ const contactSchema = new Schema(
 		},
 		email: {
 			type: String,
-			match: [emailRegExp, 'Incorrect email format'],
+			match: [$EMAIL_REG_EXP, 'Incorrect email format'],
 		},
 		phone: {
 			type: String,
@@ -22,6 +20,11 @@ const contactSchema = new Schema(
 		favorite: {
 			type: Boolean,
 			default: false,
+		},
+		owner: {
+			type: Schema.Types.ObjectId,
+			ref: 'user',
+			required: true,
 		},
 	},
 	{ versionKey: false, timestamps: true }
@@ -33,7 +36,7 @@ contactSchema.post('save', handleSaveError);
 
 export const contactAddSchema = Joi.object({
 	name: Joi.string().required(),
-	email: Joi.string().pattern(emailRegExp).required(),
+	email: Joi.string().pattern($EMAIL_REG_EXP).required(),
 	phone: Joi.string().required(),
 	favorite: Joi.boolean(),
 });
