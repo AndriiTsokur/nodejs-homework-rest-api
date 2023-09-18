@@ -1,11 +1,11 @@
 import { ctrlWrapper } from '../../decorators/index.js';
 
 const getCurrrent = (req, res) => {
-	const { userName, userEmail } = req.user;
+	const { userEmail, userSubscription } = req.user;
 
 	res.json({
-		userName,
 		userEmail,
+		userSubscription,
 	});
 };
 

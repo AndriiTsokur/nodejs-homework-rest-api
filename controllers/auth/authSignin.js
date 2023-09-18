@@ -16,7 +16,7 @@ const signin = async (req, res) => {
 	const passwordCompare = await bcrypt.compare(userPassword, user.userPassword);
 	if (!passwordCompare) throw HttpError(401, 'Wrong email or password');
 
-	const { _id: id } = user;
+	const { _id: id, userSubscription } = user;
 
 	const payload = {
 		id,
@@ -27,6 +27,10 @@ const signin = async (req, res) => {
 
 	res.json({
 		token,
+		user: {
+			userEmail,
+			userSubscription,
+		},
 	});
 };
 

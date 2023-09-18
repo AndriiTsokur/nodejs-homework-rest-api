@@ -5,7 +5,7 @@ const signout = async (req, res) => {
 	const { _id } = req.user;
 	await User.findByIdAndUpdate(_id, { token: '' });
 
-	res.json({
+	res.status(200).json({
 		message: 'Signout complete',
 	});
 };

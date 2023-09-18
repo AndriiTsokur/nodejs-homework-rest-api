@@ -5,7 +5,7 @@ import { ctrlWrapper } from '../../decorators/index.js';
 const getById = async (req, res) => {
 	const { contactId: id } = req.params;
 
-	const data = await Contact.findById(id);
+	const data = await Contact.findById(id).populate('owner', 'userEmail');
 	if (!data) {
 		throw HttpError(404, `No contact found for ID: ${id}`);
 	}
