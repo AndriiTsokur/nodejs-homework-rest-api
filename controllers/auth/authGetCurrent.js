@@ -1,6 +1,6 @@
 import { ctrlWrapper } from '../../decorators/index.js';
 
-const getCurrrent = (req, res) => {
+const getCurrent = (req, res) => {
 	const { userEmail, userSubscription } = req.user;
 
 	res.json({
@@ -9,4 +9,4 @@ const getCurrrent = (req, res) => {
 	});
 };
 
-export default ctrlWrapper(getCurrrent);
+export default ctrlWrapper(getCurrent);

@@ -24,6 +24,10 @@ const userSchema = new Schema(
 			enum: subscriptionList,
 			default: 'starter',
 		},
+		userAvatarURL: {
+			type: String,
+			default: null,
+		},
 		token: {
 			type: String,
 			default: null,
@@ -39,6 +43,7 @@ userSchema.post('save', handleSaveError);
 export const userJoiSchema = Joi.object({
 	userEmail: Joi.string().pattern($EMAIL_REG_EXP).required(),
 	userPassword: Joi.string().min(6).required(),
+	userSubscription: Joi.string().valid(...subscriptionList),
 });
 
 export const userUpdateSubscriptionSchema = Joi.object({

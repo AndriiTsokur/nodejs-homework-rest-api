@@ -3,7 +3,7 @@ import express from 'express';
 import { authController } from '../../controllers/index.js';
 import * as userSchemas from '../../models/User.js';
 import { validateBody } from '../../decorators/index.js';
-import { authenticate } from '../../middlewares/index.js';
+import { authenticate, upload } from '../../middlewares/index.js';
 
 const userValidate = validateBody(userSchemas.userJoiSchema);
 const userUpdateSubscriptionValidate = validateBody(
@@ -25,6 +25,13 @@ authRouter.patch(
 	authenticate,
 	userUpdateSubscriptionValidate,
 	authController.updateById
+);
+
+authRouter.patch(
+	'/avatars',
+	authenticate,
+	upload.single('userAvatar'),
+	authController.updateByToken
 );
 
 export default authRouter;
