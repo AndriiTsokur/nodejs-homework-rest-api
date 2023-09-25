@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import gravatar from 'gravatar';
 
 import User from '../../models/User.js';
 import { HttpError } from '../../helpers/index.js';
@@ -12,15 +13,24 @@ const signup = async (req, res) => {
 
 	const hashUserPassword = await bcrypt.hash(userPassword, 10);
 
+	const defaultAvatar = gravatar.url(userEmail, {
+		protocol: 'https',
+		size: '250',
+		rating: 'pg',
+		default: 'robohash',
+	});
+
 	const newUser = await User.create({
 		...req.body,
 		userPassword: hashUserPassword,
+		userAvatarURL: defaultAvatar,
 	});
 
 	res.status(201).json({
 		user: {
 			userEmail: newUser.userEmail,
 			userSubscription: newUser.userSubscription,
+			userAvatarURL: newUser.userAvatarURL,
 		},
 	});
 };
