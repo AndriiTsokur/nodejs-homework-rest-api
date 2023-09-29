@@ -6,6 +6,7 @@ import { validateBody } from '../../decorators/index.js';
 import { authenticate, upload } from '../../middlewares/index.js';
 
 const userValidate = validateBody(userSchemas.userJoiSchema);
+const userEmailValidate = validateBody(userSchemas.userEmailSchema);
 const userUpdateSubscriptionValidate = validateBody(
 	userSchemas.userUpdateSubscriptionSchema
 );
@@ -13,6 +14,14 @@ const userUpdateSubscriptionValidate = validateBody(
 const authRouter = express.Router();
 
 authRouter.post('/signup', userValidate, authController.signup);
+
+authRouter.get('/verify/:verificationCode', authController.verify);
+
+authRouter.post(
+	'/verify',
+	userEmailValidate,
+	authController.resendVerificationEmail
+);
 
 authRouter.post('/signin', userValidate, authController.signin);
 

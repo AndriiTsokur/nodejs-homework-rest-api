@@ -1,8 +1,9 @@
 import bcrypt from 'bcryptjs';
 import gravatar from 'gravatar';
+import { nanoid } from 'nanoid';
 
 import User from '../../models/User.js';
-import { HttpError } from '../../helpers/index.js';
+import { HttpError, sendEmail, verifyEmail } from '../../helpers/index.js';
 import { ctrlWrapper } from '../../decorators/index.js';
 
 const signup = async (req, res) => {
@@ -20,11 +21,16 @@ const signup = async (req, res) => {
 		default: 'robohash',
 	});
 
+	const verificationCode = nanoid();
+
 	const newUser = await User.create({
 		...req.body,
 		userPassword: hashUserPassword,
 		userAvatarURL: defaultAvatar,
+		verificationCode,
 	});
+
+	await sendEmail(verifyEmail(userEmail, verificationCode));
 
 	res.status(201).json({
 		user: {
